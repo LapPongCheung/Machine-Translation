@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Machine Translation</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<style>
+		button {
+		    background-color: #2B73B6; /* Green background */
+		    border: 1px solid blue; /* Green border */
+		    color: white; /* White text */
+		    padding: 10px 24px; /* Some padding */
+		    cursor: pointer; /* Pointer/hand icon */
+		    float: left; /* Float the buttons side by side */
+		}
+	</style>
+</head>
+<body>
+	<iframe src="buttons"></iframe>
+	<form action = "{{url_for('finalize')}}" method = "post">
+		<table name = 'table'>
+		<thead>
+			<tr>
+				<th>English Text</th>
+				<th>Chinese Text</th>
+			</tr>
+		</thead>
+		<tr>
+			<td><p>
+			{% for en_paragraph in text[0] %}
+				{{en_paragraph}}<br/><br>
+			{% endfor %}
+			</p></td>
+			<td><p>
+			{% for ch_paragraph in text[1] %}
+				{{ch_paragraph}}<br/><br>
+			{% endfor %}
+			</p></td>
+		</tr>
+		</tbody>
+		</table>
+
+	<button type="button" onclick="window.location.href='{{ url_for( 'copy') }}';">copy to clipboard</button>	
+	<button type="button" onclick="window.location.href='{{ url_for( 'download') }}';">Download as File</button>	
+	</form>
+</body>
+</html>
+

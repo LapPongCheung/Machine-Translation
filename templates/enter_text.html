@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Machine Translation</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script type="text/javascript">
+        function loading(){
+        	document.getElementById("loading").innerHTML = "loading...";
+        }
+    </script>
+    <style>
+	
+		div#content {
+		    display: none;
+		    }
+		 
+		textarea {
+		    width: 70%;
+		    height: 150px;
+		    padding: 12px 20px;
+		    box-sizing: border-box;
+		    border: 2px solid #ccc;
+		    border-radius: 4px;
+		    background-color: #f8f8f8;
+		    font-size: 16px;
+		    resize: none;
+			display: block;
+		    margin-left: auto;
+		    margin-right: auto;		}
+
+		input {
+		    background-color: #2B73B6; /* Green background */
+		    border: 1px solid blue; /* Green border */
+		    color: white; /* White text */
+		    padding: 10px 24px; /* Some padding */
+		    cursor: pointer; /* Pointer/hand icon */
+		    float: left; /* Float the buttons side by side */
+		}
+
+
+	</style>
+</head>
+<body>
+	<iframe src="/buttons"></iframe>
+    <h1 id = "loading" style="text-align: center;">Please paste the text in the following textarea:</h1>
+    <br><br/>
+    <form action="{{ url_for('preprocess') }}" method="post" accept-charset="UTF-8">        
+    	<textarea name = "text" cols = "30" rows = "10"></textarea>
+        <input type="submit" name="my-form" value="Send" onclick="loading()" class = "send">
+    </form>
+
+</body>
+</html>

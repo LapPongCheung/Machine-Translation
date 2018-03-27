@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script>
+		function open(cityName, elmnt, color) {
+		    // Hide all elements with class="tabcontent" by default */
+		    var i, tabcontent, tablinks;
+		    tabcontent = document.getElementsByClassName("tabcontent");
+		    for (i = 0; i < tabcontent.length; i++) {
+		        tabcontent[i].style.display = "none";
+		    }
+
+		    // Remove the background color of all tablinks/buttons
+		    tablinks = document.getElementsByClassName("tablink");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].style.backgroundColor = "";
+		    }
+
+		    // Show the specific tab content
+		    document.getElementById(cityName).style.display = "block";
+
+		    // Add the specific color to the button used to open the tab content
+		    elmnt.style.backgroundColor = color;
+		}
+
+		// Get the element with id="defaultOpen" and click on it
+		document.getElementById("defaultOpen").click();
+	</script>
+	<style>
+		/* Style the tab buttons */
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+}
+
+/* Change background color of buttons on hover */
+.tablink:hover {
+    background-color: #777;
+}
+
+/* Set default styles for tab content */
+.tabcontent {
+    color: black;
+    display: none;
+    padding: 50px;
+    text-align: center;
+}
+
+/* Style each tab content individually */ 
+#London {background-color:red;}
+#Paris {background-color:green;}
+#Tokyo {background-color:blue;}
+	</style>
+</head>
+<body>
+{% for _ in table %}
+	<div id="{{loop.index}}" class="tabcontent">
+  <h3>London</h3>
+  <p>London is the capital city of England.</p>
+</div>
+{% endfor %}
+
+{% for i in range(4) %}
+<button class="tablink" onclick="open({{i|string}}, this, 'red')">London</button>
+{% endfor %}
+</body>

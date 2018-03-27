@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Machine Translation</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<form action = "" method = "post" name = "result">
+		<table>
+		<th>
+			Machine Translation
+		</th>
+		<tbody>
+		<tr>
+			<td><button type="button" onclick="window.location.href='{{ url_for( 'enter' ) }}';">Enter Text</button></td>
+			<td><button type="button" onclick="window.location.href='{{ url_for( 'upload_file' ) }}';">Upload File</button></td>
+		</tr>
+		</tbody>
+		</table>
+	</form>
+</body>
+</html>

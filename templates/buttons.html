@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		.btn-group button {
+		    background-color: #2B73B6; /* Green background */
+		    border: 1px solid blue; /* Green border */
+		    color: white; /* White text */
+		    padding: 10px 24px; /* Some padding */
+		    cursor: pointer; /* Pointer/hand icon */
+		    float: left; /* Float the buttons side by side */
+		}
+
+		.btn-group button:not(:last-child) {
+		    border-right: none; /* Prevent double borders */
+		}
+
+		/* Clear floats (clearfix hack) */
+		.btn-group:after {
+		    content: "";
+		    clear: both;
+		    display: table;
+		}
+
+		/* Add a background color on hover */
+		.btn-group button:hover {
+		    background-color: #1F5587;
+		}
+	</style>
+	<script>
+		function goBack() {
+		    window.history.back();
+		}
+
+		function goHome() {
+		    window.top.location.href = "/";
+		}
+
+	</script>
+</head>
+<body>
+	<div class="btn-group">
+		<button onclick="goHome()">Home</button>
+		<button onclick="goBack()">Back</button>
+		<button>Instruction</button>
+	</div>
+</body>

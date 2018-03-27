@@ -1,0 +1,7 @@
+model\translate.ckpt-120000.data-00000-of-00001
+model\translate.ckpt-120000.index
+model\translate.ckpt-120000.meta
+model/
+preprocess/
+new_model/
+*.json

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Machine Translation</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<iframe src="/buttons"></iframe>
+	<table>
+	<thead>
+		<tr>
+			<th>English Text</th>
+			<th>Chinese Text</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for en_line, ch_line in text %}
+		<tr>
+			<td>{{en_line}}</td>
+			<td>{{ch_line}}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+</body>
+</html>
+

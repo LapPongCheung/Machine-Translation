@@ -1,0 +1,100 @@
+diff a/templates/testing_result.html b/templates/testing_result.html	(rejected hunks)
+@@ -3,9 +3,33 @@
+ <head>
+ 	<title>Machine Translation</title>
+ 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
++	<script>
++	function open(evt, num) {
++	    // Declare all variables
++	    var i, tabcontent, tablinks;
++
++	    // Get all elements with class="tabcontent" and hide them
++	    tabcontent = document.getElementsByClassName("tabcontent");
++	    for (i = 0; i < tabcontent.length; i++) {
++	        tabcontent[i].style.display = "none";
++	    }
++
++	    // Get all elements with class="tablinks" and remove the class "active"
++	    tablinks = document.getElementsByClassName("tablinks");
++	    for (i = 0; i < tablinks.length; i++) {
++	        tablinks[i].className = tablinks[i].className.replace(" active", "");
++	    }
++
++	    // Show the current tab, and add an "active" class to the button that opened the tab
++	    document.getElementById(num).style.display = "block";
++	    evt.currentTarget.className += " active";
++		}
++
++	</script>
+ </head>
+ <body>
+ 	<form action = "{{url_for('finalize')}}" method = "post">
++
+ 		<table name = 'table'>
+ 		<thead>
+ 			<tr>
+@@ -18,11 +42,61 @@
+ 			<tr>
+ 				<td>{{token[0]}}</td>
+ 				<td>
+-					<div>
++				<div>
++				<style >/* Style the tab */
++					div.tab {
++					    overflow: hidden;
++					    border: 1px solid #ccc;
++					    background-color: #f1f1f1;
++					}
+ 
+-						{{token[1].chinese(columns = 30, rows = 10)}}
++					/* Style the buttons inside the tab */
++					div.tab button {
++					    background-color: inherit;
++					    float: left;
++					    border: none;
++					    outline: none;
++					    cursor: pointer;
++					    padding: 14px 16px;
++					    transition: 0.3s;
++					}
++
++					/* Change background color of buttons on hover */
++					div.tab button:hover {
++					    background-color: #ddd;
++					}
++
++					/* Create an active/current tablink class */
++					div.tab button.active {
++					    background-color: #ccc;
++					}
++
++					/* Style the tab content */
++					.tabcontent {
++					    display: none;
++					    padding: 6px 12px;
++					    border: 1px solid #ccc;
++					    border-top: none;
++					}</style>
++					<div class = "tab">
++					{% for _ in token[1] %}
++						{% if _ == 1 %}
++						<button class = "tablinks" onclick = "open(event, {{loop.index}})" id = "defaultOpen">{{loop.index}}</button>
++						{% else %}
++						<button class = "tablinks" onclick = "open(event, {{loop.index}})">{{loop.index}}</button>
++						{% endif %}
++						
++					{% endfor %}
++					</div>
++					{% for ch_sent in token[1] %}
++					<div id= "{{loop.index}}" class="tabcontent">
++						<h3>{{ch_sent}}</h3>
++												
+ 					</div>
+-				</td>
++					{% endfor %}
++					</div>				
++					</td>
++				
+ 			</tr>
+ 		{% endfor %}
+ 		</tbody>

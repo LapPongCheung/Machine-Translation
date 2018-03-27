@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Machine Translation</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<style>
+		/* Style the tab buttons */
+		.tablink {
+		    background-color: #555;
+		    color: white;
+		    float: left;
+		    border: none;
+		    outline: none;
+		    cursor: pointer;
+		    padding: 14px 16px;
+		    font-size: 17px;
+		    width: 25%;
+		}
+
+		/* Change background color of buttons on hover */
+		.tablink:hover {
+		    background-color: #777;
+		}
+
+		/* Set default styles for tab content */
+		.tabcontent {
+		    color: black;
+		    display: none;
+		    padding: 50px;
+		    text-align: justify;
+		}
+
+		#larger {
+		font-size: 60px;
+		}
+
+		#middle {
+		font-size: 25px;
+		}
+
+		.text-default {
+		  color: @text-color;
+		}
+
+		.text{
+		  color: black;
+		  background-color:'';	}
+
+		.en_para{
+		}
+
+		.ch_sent{
+			color: black
+			background-color: "";
+		}
+
+		textarea{
+
+		    width: 100%;
+		    height: 150px;
+		    box-sizing: border-box;
+		    border: 2px solid #ccc;
+		    border-radius: 4px;
+		    background-color: #f8f8f8;
+		    font-size: 16px;
+		    resize: none;
+		    align-content: left;
+		    text-align: justify;
+		}
+		span{
+			text-align: justify;
+		}
+
+		input {
+		    background-color: #2B73B6; /* Green background */
+		    border: 1px solid blue; /* Green border */
+		    color: white; /* White text */
+		    padding: 10px 24px; /* Some padding */
+		    cursor: pointer; /* Pointer/hand icon */
+		    float: left; /* Float the buttons side by side */
+		}
+
+		
+	</style>
+	<script>
+			var last = '';
+
+			function open(page, elmnt, color) {
+			    // Hide all elements with class="tabcontent" by default */
+			    var i, tabcontent, tablinks, text, texts;
+			    text = page + '_text';
+
+			    tabcontent = document.getElementsByClassName("tabcontent");
+			    for (i = 0; i < tabcontent.length; i++) {
+			        tabcontent[i].style.display = "none";
+			    }
+
+			    // Remove the background color of all tablinks/buttons
+			    tablinks = document.getElementsByClassName("tablink");
+			    for (i = 0; i < tablinks.length; i++) {
+			        tablinks[i].style.backgroundColor = "";
+			    }
+
+
+			    texts = document.getElementsByClassName("text");
+			    for (i = 0; i < texts.length; i++) {
+			        texts[i].style.color = "black";
+			    }
+
+			    // Show the specific tab content
+			    document.getElementById(page).style.display = "block";
+			    document.getElementById(text).style.color = 'red';
+
+			    // Add the specific color to the button used to open the tab content
+			    elmnt.style.backgroundColor = color;
+			    
+			}
+
+			function show_sent(e, elmnt){
+				var targ, page, text, i, tabcontent, texts;
+
+			    if (!e) {
+			        var e = window.event;
+			    }
+			    if (e.target) {
+			        targ=e.target;
+			    } else if (e.srcElement) {
+			        targ=e.srcElement;
+			    }
+
+				tabcontent = document.getElementsByClassName("tabcontent");
+			    for (i = 0; i < tabcontent.length; i++) {
+			        tabcontent[i].style.display = "none";
+			    }
+
+
+			    texts = document.getElementsByClassName("text");
+			    for (i = 0; i < texts.length; i++) {
+			        texts[i].style.backgroundColor = "";
+			    }
+
+			    ch_sents = document.getElementsByClassName("ch_sent");
+			    for (i = 0; i < ch_sents.length; i++) {
+			        ch_sents[i].style.backgroundColor = "";
+			    }
+
+			    page = targ.id.replace('ch_text', '')
+			    text = targ.id.replace('ch_text', '_text')
+				document.getElementById(page).style.display = "block";
+			    document.getElementById(text).style.backgroundColor = '#88CCF1';
+			    elmnt.style.backgroundColor = '#88CCF1';
+
+			    // Add the specific color to the button used to open the tab content
+			   
+			}
+
+			function save(index) {
+				var ch_sentences, tabcontent,sent_index, ch_text_index, index_str;
+				index_str = index.toString();
+				ch_text_index = index + "total_text";
+				console.log(ch_text_index);
+
+				div = document.getElementById(ch_text_index);
+				ch_sentences = div.getElementsByClassName("ch_sent");
+				console.log(ch_sentences);
+				console.log(ch_sentences.length);
+				for (i = 0; i < ch_sentences.length; i++) {
+					console.log(i);
+					sent_index = index + "." + (i+1).toString();
+					console.log(sent_index);
+					console.log(document.getElementById(sent_index));
+			        ch_sentences[i].innerHTML = document.getElementById(sent_index).value;
+
+			    }
+			}
+
+			// Get the element with id="defaultOpen" and click on it
+			document.getElementById("defaultOpen").click();
+		</script>
+</head>
+<body>
+	<iframe src="/buttons"></iframe>
+	<form action = "{{url_for('finalize')}}" method = "post" id = "translation">
+		<table name = 'table'>
+		<thead>
+			<tr>
+				<th>English Text</th>
+				<th>Chinese Text</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for token in table %}
+		{% set index = loop.index|string %}
+
+			<tr>
+				<td valign="top">
+					<div class = "en_para">
+					<h3>Paragraph {{loop.index}}:</h3>
+					{% for en_sent in token[0] %}
+						<span id={{index}}.{{loop.index|string + '_text'}} class = "text">{{en_sent}}</span>
+						
+					{% endfor %}
+					</div>
+					
+				</td>
+				<td valign="top">
+				{% set ch_text_index = index + "total_text" %}
+					<div id={{ch_text_index}}>
+						<h3>第{{loop.index}}段:</h3>
+						{% for ch_sent in token[2] %}
+							<span id={{index}}.{{loop.index|string + 'ch_text'}} class = "ch_sent" onmousedown="show_sent(event, this)">{{ch_sent}}</span>
+						{% endfor %}
+					</div>
+					{% for ch_sent in token[2] %}					
+					
+						<textarea id={{index}}.{{loop.index|string}} name={{index}}.{{loop.index|string}} class="tabcontent" form = "translation">{{ch_sent}}</textarea>
+					{% endfor %}
+
+					
+					<br/>
+					<button class="tablink" onclick="save({{index}})" type = "button">Save</button>
+					</td>
+				
+
+			</tr>
+		{% endfor %}
+		</tbody>
+		</table>
+
+	<input type="submit" name="my-form" value="Done" class="submitButton">
+	</form>
+
+
+</body>
+</html>
+
